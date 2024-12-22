@@ -1,0 +1,122 @@
+[versions]
+agp = "8.6.1"
+kotlin = "1.9.0"
+coreKtx = "1.15.0"
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+appcompat = "1.7.0"
+material = "1.12.0"
+activity = "1.9.3"
+constraintlayout = "2.2.0"
+
+gradle-plugin-version = "8.6.1"
+# Kotlin
+kotlin-version = "1.9.22"
+kotlin-ktx-version = "1.13.1"
+kotlin-coroutine-version = "1.7.3"
+ksp-plugin-version = "1.9.22-1.0.16"
+kotlin-serialization-json-version = "1.6.3"
+kotlin-json-converter-factory-version = "1.0.0"
+
+# Hilt
+hilt-version = "1.2.0"
+hilt-android-version = "2.51.1"
+
+# Jetpack
+room-db-version = "2.6.1"
+paging-version = "3.3.2"
+lifecycle-version = "2.8.4"
+navigation-version = "2.7.7"
+work-manager-version = "2.9.0"
+
+
+# Image
+coil-version = "2.6.0"
+coil-transformer-version = "1.0.5"
+
+
+
+# Network
+gson-version = "2.10.1"
+okhttp-version = "4.11.0"
+retrofit-version = "2.9.0"
+
+
+[libraries]
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+
+# Kotlin
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "kotlin-ktx-version" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin-version" }
+kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlin-coroutine-version" }
+kotlin-json-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref ="kotlin-serialization-json-version" }
+kotlin-json-converter-factory = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref ="kotlin-json-converter-factory-version" }
+
+# Hilt
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt-android-version" }
+hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hilt-version" }
+
+
+# Hilt kapt
+hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt-android-version" }
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt-android-version" }
+hilt-compiler-kapt = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hilt-version" }
+
+# Jetpack
+room-db = { group = "androidx.room", name = "room-runtime", version.ref = "room-db-version" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room-db-version" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room-db-version" }
+room-kapt = { group = "androidx.room", name = "room-compiler", version.ref = "room-db-version" }
+paging = { group = "androidx.paging", name = "paging-runtime-ktx", version.ref = "paging-version" }
+work-manager-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work-manager-version" }
+navigation-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigation-version" }
+navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigation-version" }
+lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle-version" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-version" }
+lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycle-version" }
+
+# Image
+coil-core = { group = "io.coil-kt", name = "coil", version.ref = "coil-version" }
+coil-gif = { group = "io.coil-kt", name = "coil-gif", version.ref = "coil-version" }
+coil-transformer = { group = "jp.wasabeef.transformers", name = "coil", version.ref = "coil-transformer-version" }
+coil-transformer-core = { group = "jp.wasabeef.transformers", name = "core", version.ref = "coil-transformer-version" }
+
+# Network
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson-version" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }
+retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-version" }
+okhttp-logger = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp-version" }
+okhttp-dnshttp = { group = "com.squareup.okhttp3", name = "okhttp-dnsoverhttps", version.ref = "okhttp-version" }
+
+
+[plugins]
+
+android-application = { id = "com.android.application", version.ref = "gradle-plugin-version" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-version" }
+
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp-plugin-version" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin-version" }
+kotlin-gradle = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin-version" }
+kotlin-serialize = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin-version" }
+kotlin-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin-version" }
+android-library = { id = "com.android.library", version.ref = "gradle-plugin-version" }
+navigation-safeargs = { id = "androidx.navigation.safeargs", version.ref = "navigation-version" }
+hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt-android-version" }
+
+
+[bundles]
+retrofit = ["retrofit-core", "okhttp-logger", "okhttp-dnshttp","retrofit-gson"]
+lifecycle = ["lifecycle-viewmodel-ktx", "lifecycle-runtime-ktx", "lifecycle-livedata-ktx"]
+coil = ["coil-core", "coil-gif", "coil-transformer", "coil-transformer-core"]
+hilt = ["hilt-android", "hilt-work"]
+room = ["room-db", "room-paging", "room-ktx"]
+navigation = ["navigation-ktx", "navigation-ui-ktx"]
+
