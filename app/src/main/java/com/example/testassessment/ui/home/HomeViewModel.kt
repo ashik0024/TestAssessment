@@ -76,7 +76,10 @@ class HomeViewModel @Inject constructor(
 
     if (photosList.isNotEmpty() && albumsList.isNotEmpty() && usersList.isNotEmpty()){
 
-
+        /**
+         * From photoList data we are grouping data by albumId. We made a separate data class type AlbumGroup
+         * which will hold data of photoList grouped by albumID.
+         */
         val albumGroups = photosList
             .groupBy { it.albumId }
             .map { (albumId, itemList) ->
@@ -93,6 +96,10 @@ class HomeViewModel @Inject constructor(
             )
         }
 
+        /**
+         * Here, we are maping albumGroups data with two other list of data albumsList and usersList.
+         * we are only taking albums and user that matches with albumGroups albumId and userId.
+         */
     val combinedData = albumGroups.flatMap { item ->
         val albums = albumsList.find { it.id == item.albumId }
         val users = usersList.find { it.id == albums?.userId }
