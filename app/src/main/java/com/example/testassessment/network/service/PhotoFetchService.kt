@@ -9,11 +9,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import com.example.testassessment.network.Results
-import com.example.testassessment.network.response.Photos
 import com.example.testassessment.network.retrofit.ApiInterface
+import com.example.testassessment.roomdb.AlbumEntity
 import com.example.testassessment.roomdb.PhotosEntity
 import com.example.testassessment.roomdb.RoomDao
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +27,9 @@ class PhotoFetchService : Service() {
     @Inject
     lateinit var apiService: ApiInterface
     @Inject
-    lateinit var getPhotosPaging: GetPhotosPaging
+    lateinit var getPhotosRepo: GetPhotosRepo
+    @Inject
+    lateinit var getAlbumsRepo: GetAlbumsRepo
     @Inject
     lateinit var roomDao: RoomDao
     private val channelId = "photo_fetch_service_channel"
@@ -47,15 +48,15 @@ class PhotoFetchService : Service() {
     private fun fetchPhotosInBackground() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-               val response = getPhotosPaging.getPhotoData()
-                Log.d("PhotoFetchService", "Photo Title: ${response}")
+               val responsePhoto = getPhotosRepo.getPhotoData()
+                Log.d("PhotoFetchService", "Photo Title: ${responsePhoto}")
 
-                response.let {
+                responsePhoto.let {
                     when(it){
                         is Results.Success -> {
                             val photosList = it.data.map { photo ->
                                 PhotosEntity(
-                                    id = photo.id?:-1,
+                                    id = photo.id?:0,
                                     title = photo.title?:"",
                                     url = photo.url?:"",
                                     thumbnailUrl = photo.thumbnailUrl?:""
@@ -63,6 +64,33 @@ class PhotoFetchService : Service() {
                             }
                             roomDao.insertPhotos(photosList)
                             Log.d("PhotoFetchService", "Photos saved to Room DB")
+                        }
+                        is Results.Error -> {
+                            val error = it.exception
+                            Log.d("PhotoFetchService", "error: ${error.cause}")
+                        }
+                        is Results.Loading -> {
+
+                        }
+
+                    }
+                }
+
+                val responseAlbums = getAlbumsRepo.getAlbumData()
+                Log.d("PhotoFetchService", "Albums : ${responseAlbums}")
+                responseAlbums.let {
+                    when(it){
+                        is Results.Success -> {
+                            val albumList = it.data.map { album ->
+                                AlbumEntity(
+                                    id = album.id?:0,
+                                    userId = album.userId?:0,
+                                    title = album.title?:""
+
+                                )
+                            }
+                            roomDao.insertAlbums(albumList)
+                            Log.d("PhotoFetchService", "Albums saved to Room DB")
                         }
                         is Results.Error -> {
                             val error = it.exception

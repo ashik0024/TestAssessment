@@ -15,5 +15,11 @@ interface RoomDao {
         @Query("SELECT * FROM photos_table")
         fun getAllPhotos(): Flow<List<PhotosEntity>>
 
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun insertAlbums(photos: List<AlbumEntity>)
+
+        @Query("SELECT * FROM album_table")
+        fun getAllAlbums(): Flow<List<AlbumEntity>>
+
 
 }

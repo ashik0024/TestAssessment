@@ -46,7 +46,6 @@ class HomeFragment : Fragment() , BaseListItemCallback<PhotosEntity> {
     private fun observeData() {
         lifecycleScope.launch {
             viewModel.photos.collect { photosList ->
-                photoAdapter.removeAll()
                 photoAdapter.addAll(photosList)
                 photoAdapter.notifyDataSetChanged()
                 Log.d("PhotoFetchService", "Photos list updated in UI: ${photosList.size}")

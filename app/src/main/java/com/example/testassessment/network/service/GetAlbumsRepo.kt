@@ -1,22 +1,19 @@
 package com.example.testassessment.network.service
 
-import android.util.Log
-import com.example.testassessment.common.BaseApiService
-import com.example.testassessment.network.PagingErrorHandling
 import com.example.testassessment.network.Results
-import com.example.testassessment.network.response.Photos
+import com.example.testassessment.network.response.Albums
 import com.example.testassessment.network.retrofit.ApiInterface
 import com.example.testassessment.network.safeApiCall
 import javax.inject.Inject
 
 
 
-class GetPhotosPaging @Inject constructor(
+class GetAlbumsRepo @Inject constructor(
     private val apiService: ApiInterface) {
 
-    suspend fun getPhotoData(): Results<List<Photos>> {
+    suspend fun getAlbumData(): Results<List<Albums>> {
         return safeApiCall {
-            val response = apiService.getPhotos()
+            val response = apiService.getAlbums()
             response
         }
     }
