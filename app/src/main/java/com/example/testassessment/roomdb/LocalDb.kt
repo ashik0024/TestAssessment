@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 
 
 @Database(
-    entities = [PhotosEntity::class,AlbumEntity::class],
+    entities = [PhotosEntity::class,AlbumEntity::class,UserEntity::class],
     version = 1
 )
 abstract class LocalDb : RoomDatabase() {

@@ -15,6 +15,7 @@ import com.example.testassessment.network.retrofit.ApiInterface
 import com.example.testassessment.roomdb.AlbumEntity
 import com.example.testassessment.roomdb.PhotosEntity
 import com.example.testassessment.roomdb.RoomDao
+import com.example.testassessment.roomdb.UserEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -30,6 +31,8 @@ class PhotoFetchService : Service() {
     lateinit var getPhotosRepo: GetPhotosRepo
     @Inject
     lateinit var getAlbumsRepo: GetAlbumsRepo
+    @Inject
+    lateinit var getUserRepo: GetUserRepo
     @Inject
     lateinit var roomDao: RoomDao
     private val channelId = "photo_fetch_service_channel"
@@ -91,6 +94,32 @@ class PhotoFetchService : Service() {
                             }
                             roomDao.insertAlbums(albumList)
                             Log.d("PhotoFetchService", "Albums saved to Room DB")
+                        }
+                        is Results.Error -> {
+                            val error = it.exception
+                            Log.d("PhotoFetchService", "error: ${error.cause}")
+                        }
+                        is Results.Loading -> {
+
+                        }
+
+                    }
+                }
+
+
+                val responseUser = getUserRepo.getUserData()
+                Log.d("PhotoFetchService", "Users : ${responseUser}")
+                responseUser.let {
+                    when(it){
+                        is Results.Success -> {
+                            val userList = it.data.map { user ->
+                                UserEntity(
+                                    id = user.id?:0,
+                                    userName = user.username?:""
+                                )
+                            }
+                            roomDao.insertUsers(userList)
+                            Log.d("PhotoFetchService", "Users saved to Room DB")
                         }
                         is Results.Error -> {
                             val error = it.exception
