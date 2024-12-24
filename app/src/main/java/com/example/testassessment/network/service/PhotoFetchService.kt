@@ -60,6 +60,7 @@ class PhotoFetchService : Service() {
                             val photosList = it.data.map { photo ->
                                 PhotosEntity(
                                     id = photo.id?:0,
+                                    albumId = photo.albumId?:0,
                                     title = photo.title?:"",
                                     url = photo.url?:"",
                                     thumbnailUrl = photo.thumbnailUrl?:""

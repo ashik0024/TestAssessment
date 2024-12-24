@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() , BaseListItemCallback<PhotosEntity> {
+class HomeFragment : Fragment() , BaseListItemCallback<CombinedPhotoData> {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding
     private val viewModel: HomeViewModel by viewModels()
@@ -45,14 +45,14 @@ class HomeFragment : Fragment() , BaseListItemCallback<PhotosEntity> {
 
     private fun observeData() {
         lifecycleScope.launch {
-            viewModel.photos.collect { photosList ->
-                photoAdapter.addAll(photosList)
+            viewModel.combinedPhotoData.collect { combinedData ->
+                photoAdapter.addAll(combinedData)
                 photoAdapter.notifyDataSetChanged()
-                Log.d("PhotoFetchService", "Photos list updated in UI: ${photosList.size}")
+                Log.d("PhotoFetchService", "Photos list updated in UI: ${combinedData.size}")
             }
         }
     }
-    override fun onItemClicked(item: PhotosEntity) {
+    override fun onItemClicked(item: CombinedPhotoData) {
         super.onItemClicked(item)
 
     }
