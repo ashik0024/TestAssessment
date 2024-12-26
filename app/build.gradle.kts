@@ -67,9 +67,14 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.jupiter.api)
+    testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.mockito.android)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.espresso.contrib)
+
 
     with (libs) {
 
@@ -98,8 +103,6 @@ dependencies {
 
 //         Network
         implementation(bundles.retrofit)
-
-
 
     }
 }

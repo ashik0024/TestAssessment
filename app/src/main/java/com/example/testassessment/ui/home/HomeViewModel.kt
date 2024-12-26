@@ -38,13 +38,13 @@ class HomeViewModel @Inject constructor(
 
     }
 
-     fun fetchPhotosFromRoom() {
-         viewModelScope.launch {
-             roomDao.getAllPhotos().collect { photosList ->
-                 _photos.value = photosList
-                 Log.d("PhotoFetchService", "Photos updated in ViewModel: ${_photos.value.size}")
-             }
-         }
+    fun fetchPhotosFromRoom() {
+        viewModelScope.launch {
+            roomDao.getAllPhotos()?.collect { photosList ->
+                _photos.value = photosList
+                Log.d("PhotoFetchService", "Photos updated in ViewModel: ${_photos.value.size}")
+            }
+        }
     }
     fun fetchAlbumsFromRoom() {
         viewModelScope.launch {
