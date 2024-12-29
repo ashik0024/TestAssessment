@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.IBinder
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.testassessment.network.Results
 import com.example.testassessment.network.retrofit.ApiInterface
@@ -44,94 +43,16 @@ class PhotoFetchService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         val notification = createNotification()
         startForeground(1, notification)
-
         fetchPhotosInBackground()
         return START_NOT_STICKY
     }
     private fun fetchPhotosInBackground() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-               val responsePhoto = getPhotosRepo.getPhotoData()
-                Log.d("PhotoFetchService", "Photo Title: ${responsePhoto}")
 
-                responsePhoto.let {
-                    when(it){
-                        is Results.Success -> {
-                            val photosList = it.data.map { photo ->
-                                PhotosEntity(
-                                    id = photo.id?:0,
-                                    albumId = photo.albumId?:0,
-                                    title = photo.title?:"",
-                                    url = photo.url?:"",
-                                    thumbnailUrl = photo.thumbnailUrl?:""
-                                )
-                            }
-                            roomDao.insertPhotos(photosList)
-                            Log.d("PhotoFetchService", "Photos saved to Room DB")
-                        }
-                        is Results.Error -> {
-                            val error = it.exception
-                            Log.d("PhotoFetchService", "error: ${error.cause}")
-                        }
-                        is Results.Loading -> {
-
-                        }
-
-                    }
-                }
-
-                val responseAlbums = getAlbumsRepo.getAlbumData()
-                Log.d("PhotoFetchService", "Albums : ${responseAlbums}")
-                responseAlbums.let {
-                    when(it){
-                        is Results.Success -> {
-                            val albumList = it.data.map { album ->
-                                AlbumEntity(
-                                    id = album.id?:0,
-                                    userId = album.userId?:0,
-                                    title = album.title?:""
-
-                                )
-                            }
-                            roomDao.insertAlbums(albumList)
-                            Log.d("PhotoFetchService", "Albums saved to Room DB")
-                        }
-                        is Results.Error -> {
-                            val error = it.exception
-                            Log.d("PhotoFetchService", "error: ${error.cause}")
-                        }
-                        is Results.Loading -> {
-
-                        }
-
-                    }
-                }
-
-
-                val responseUser = getUserRepo.getUserData()
-                Log.d("PhotoFetchService", "Users : ${responseUser}")
-                responseUser.let {
-                    when(it){
-                        is Results.Success -> {
-                            val userList = it.data.map { user ->
-                                UserEntity(
-                                    id = user.id?:0,
-                                    userName = user.username?:""
-                                )
-                            }
-                            roomDao.insertUsers(userList)
-                            Log.d("PhotoFetchService", "Users saved to Room DB")
-                        }
-                        is Results.Error -> {
-                            val error = it.exception
-                            Log.d("PhotoFetchService", "error: ${error.cause}")
-                        }
-                        is Results.Loading -> {
-
-                        }
-
-                    }
-                }
+                photoApi()
+                albumApi()
+                userApi()
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -141,6 +62,89 @@ class PhotoFetchService : Service() {
             }
         }
     }
+    private suspend fun photoApi() {
+        val responsePhoto = getPhotosRepo.getPhotoData()
+
+
+        responsePhoto.let {
+            when(it){
+                is Results.Success -> {
+                    val photosList = it.data.map { photo ->
+                        PhotosEntity(
+                            id = photo.id?:0,
+                            albumId = photo.albumId?:0,
+                            title = photo.title?:"",
+                            url = photo.url?:"",
+                            thumbnailUrl = photo.thumbnailUrl?:""
+                        )
+                    }
+                    roomDao.insertPhotos(photosList)
+
+                }
+                is Results.Error -> {
+                    val error = it.exception
+
+                }
+                is Results.Loading -> {
+
+                }
+
+            }
+        }
+    }
+    private suspend fun albumApi() {
+        val responseAlbums = getAlbumsRepo.getAlbumData()
+
+        responseAlbums.let {
+            when(it){
+                is Results.Success -> {
+                    val albumList = it.data.map { album ->
+                        AlbumEntity(
+                            id = album.id?:0,
+                            userId = album.userId?:0,
+                            title = album.title?:""
+
+                        )
+                    }
+                    roomDao.insertAlbums(albumList)
+
+                }
+                is Results.Error -> {
+                    val error = it.exception
+
+                }
+                is Results.Loading -> {
+
+                }
+
+            }
+        }
+    }
+    private suspend fun userApi() {
+        val responseUser = getUserRepo.getUserData()
+        responseUser.let {
+            when(it){
+                is Results.Success -> {
+                    val userList = it.data.map { user ->
+                        UserEntity(
+                            id = user.id?:0,
+                            userName = user.username?:""
+                        )
+                    }
+                    roomDao.insertUsers(userList)
+
+                }
+                is Results.Error -> {
+                    val error = it.exception
+                }
+                is Results.Loading -> {
+
+                }
+
+            }
+        }
+    }
+
     private fun createNotification(): Notification {
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 

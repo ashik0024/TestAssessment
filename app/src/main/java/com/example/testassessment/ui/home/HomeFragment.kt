@@ -1,24 +1,21 @@
 package com.example.testassessment.ui.home
 
 import android.os.Bundle
-import android.util.Log
+
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.testassessment.R
 import com.example.testassessment.common.BaseListItemCallback
 import com.example.testassessment.databinding.FragmentHomeBinding
-import com.example.testassessment.roomdb.PhotosEntity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() , BaseListItemCallback<CombinedPhotoData> {
+class HomeFragment : Fragment(), BaseListItemCallback<CombinedPhotoData> {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding
     private val viewModel: HomeViewModel by viewModels()
@@ -38,20 +35,20 @@ class HomeFragment : Fragment() , BaseListItemCallback<CombinedPhotoData> {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = photoAdapter
         }
-
         observeData()
 
     }
+
 
     private fun observeData() {
         lifecycleScope.launch {
             viewModel.combinedPhotoData.collect { combinedData ->
                 photoAdapter.addAll(combinedData)
                 photoAdapter.notifyDataSetChanged()
-                Log.d("PhotoFetchService", "Photos list updated in UI: ${combinedData.size}")
             }
         }
     }
+
     override fun onItemClicked(item: CombinedPhotoData) {
         super.onItemClicked(item)
 

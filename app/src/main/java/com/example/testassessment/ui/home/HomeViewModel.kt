@@ -1,6 +1,5 @@
 package com.example.testassessment.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.testassessment.roomdb.AlbumEntity
@@ -42,7 +41,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             roomDao.getAllPhotos()?.collect { photosList ->
                 _photos.value = photosList
-                Log.d("PhotoFetchService", "Photos updated in ViewModel: ${_photos.value.size}")
+
             }
         }
     }
@@ -50,7 +49,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             roomDao.getAllAlbums().collect { albumsList ->
                 _albums.value = albumsList
-                Log.d("PhotoFetchService", "albums updated in ViewModel: ${_albums.value.size}")
+
             }
         }
     }
@@ -58,7 +57,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             roomDao.getAllUsers().collect { usersList ->
                 _users.value = usersList
-                Log.d("PhotoFetchService", "Users updated in ViewModel: ${_users.value.size}")
+
             }
         }
     }
@@ -116,14 +115,6 @@ class HomeViewModel @Inject constructor(
     }
 
     _combinedPhotoData.value = combinedData
-
-    Log.d("PhotoFetchService", "Combined data size: ${_combinedPhotoData.value.size}")
-    _combinedPhotoData.value.forEach { item ->
-        Log.d("CombinedPhotoData", "PhotoId: ${item.photoId}, Title: ${item.title}, " +
-                "URL: ${item.url}, ThumbnailURL: ${item.thumbnailUrl}, " +
-                "AlbumName: ${item.albumName}, UserName: ${item.userName}")
-            }
-
 
         }
     }
